@@ -1,4 +1,5 @@
 import "./ledger";
+import "./payments";
 import "@typespec/http";
 import "@typespec/rest";
 import "@typespec/openapi";

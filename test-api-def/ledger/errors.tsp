@@ -1,3 +1,9 @@
+import "@typespec/http";
+import "@typespec/openapi";
+
+using TypeSpec.Http;
+using TypeSpec.OpenAPI;
+
 namespace Formance.Ledger;
 
 enum LedgerErrors {
@@ -15,6 +21,7 @@ enum LedgerErrors {
 }
 
 @error
+@extension("x-speakeasy-name-override", "LedgerError")
 model LedgerError {
   errorCode: LedgerErrors;
   errorMessage: string;
