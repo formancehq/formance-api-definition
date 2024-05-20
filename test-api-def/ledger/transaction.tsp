@@ -81,12 +81,14 @@ namespace Transactions {
 
     @Speakeasy.autoGroup
     @head
+    @useAuth(LedgerAuth<["ledger:read"]>)
     op count(
       @path ledger: string,
       ...TransactionFilters
     ): int64 | LedgerError;
 
     @Speakeasy.autoGroup
+    @useAuth(LedgerAuth<["ledger:read"]>)
     op list(
       @path ledger: string,
 
@@ -97,26 +99,32 @@ namespace Transactions {
 
     @Speakeasy.autoGroup
     @post
+    @useAuth(LedgerAuth<["ledger:write"]>)
     op create(@path ledger: string, ...CreateTransactionInput): FormanceResponse<Transaction[]> | LedgerError;
 
     @overload(Ledger.Transactions.V1.create)
     @post
+    @useAuth(LedgerAuth<["ledger:write"]>)
     op createWithNumscript(@path ledger: string, ...CreateTransactionWithNumscript): FormanceResponse<Transaction[]> | LedgerError;
 
     @overload(Ledger.Transactions.V1.create)
     @post
+    @useAuth(LedgerAuth<["ledger:write"]>)
     op createWithPostings(@path ledger: string, ...CreateTransactionWithPostings): FormanceResponse<Transaction[]> | LedgerError;
 
     @Speakeasy.autoGroup
+    @useAuth(LedgerAuth<["ledger:read"]>)
     op get(@path ledger: string, @path txid: integer): Transaction | LedgerError;
 
     @route("{txid}/metadata")
     @Speakeasy.autoGroup
+    @useAuth(LedgerAuth<["ledger:write"]>)
     op addMetadata(@path ledger: string, @path txid: integer, metadata: Metadata): void | LedgerError;
 
     @post
     @route("{txid}/revert")
     @Speakeasy.autoGroup
+    @useAuth(LedgerAuth<["ledger:write"]>)
     op revert(@path ledger: string, @path txid: integer, @query disableChecks?: boolean): {
       @statusCode _: 201,
       ...FormanceResponse<Transaction>
@@ -125,6 +133,7 @@ namespace Transactions {
     @post
     @route("/batch")
     @Speakeasy.autoGroup
+    @useAuth(LedgerAuth<["ledger:write"]>)
     op batchCreate(@path ledger: string, transaction: CreateTransactionWithPostings[]): FormanceResponse<Transaction[]> | LedgerError;
   }
 }

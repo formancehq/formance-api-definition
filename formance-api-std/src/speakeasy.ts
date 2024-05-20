@@ -1,5 +1,5 @@
 import { DecoratorContext, Namespace, Operation, Interface, Program } from "@typespec/compiler";
-import { setExtension } from "@typespec/openapi";
+import { $operationId, setExtension } from "@typespec/openapi";
 
 export const namespace = "FormanceApiStd.Speakeasy";
 
@@ -28,10 +28,14 @@ export function $autoGroup(context: DecoratorContext, target: Operation) {
   const groups = collectSpeakeasyGroups(context.program, target.interface ?? target.namespace);
 
   setSpeakeseasyGroup(context.program, target, groups);
-  setExtension(context.program, target, "x-speakeasy-name-overridde", target.name);
+  setExtension(context.program, target, "x-speakeasy-name-override", target.name);
   setExtension(context.program, target, "x-speakeasy-errors", {
     statusCodes: ["default"]
   });
+
+  if(target.decorators.find(d => d.decorator === $operationId) === undefined) {
+    $operationId(context, target, `${groups.join("_")}_${target.name}`);
+  }
 }
 
 export function $group() {
