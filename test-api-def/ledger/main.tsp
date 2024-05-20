@@ -6,6 +6,7 @@ import "@formance/api-std";
 import "./account.tsp";
 import "./transaction.tsp";
 import "../oauth.tsp";
+import "./balances.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;

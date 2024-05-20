@@ -6,5 +6,5 @@ namespace Formance;
 
 model FormanceOAuth<Scopes extends valueof string[]> is OAuth2Auth<[{
   type: OAuth2FlowType.clientCredentials;
-  tokenUrl: "/api/auth/token"
+  tokenUrl: "/api/auth/oauth/token"
 }], Scopes>;
