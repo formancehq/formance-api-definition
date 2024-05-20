@@ -2,7 +2,7 @@ import "@typespec/http";
 
 using TypeSpec.Http;
 
-namespace Ledger;
+namespace Formance.Ledger;
 
 model LedgerQuery {
   @path

@@ -5,32 +5,24 @@ import "@formance/api-std";
 
 import "./account.tsp";
 import "./transaction.tsp";
+import "../oauth.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
 using FormanceApiStd;
 
-
-@service({
-  title: "Dummy Ledger API",
-
-})
-@route("/api/ledger")
-@Speakeasy.group
-@server("http://localhost", "Default localhost endpoint")
-namespace Ledger;
-
-alias LedgerAuth<Scopes extends valueof string[]> = OAuth2Auth<[{
-  type: OAuth2FlowType.clientCredentials;
-  tokenUrl: "/api/auth/token"
-}], Scopes>;
+namespace Formance;
 
 model ServerInfo {
   version: string;
 }
 
-@route("_info")
-@Speakeasy.autoGroup
-@useAuth(LedgerAuth<["ledger:read"]>)
-op info(): ServerInfo;
-
+#suppress "@typespec/http/no-service-found" "This is the definition of a service as part of the Formance stack."
+@route("/api/ledger")
+@Speakeasy.group
+namespace Ledger {
+  @route("_info")
+  @Speakeasy.autoGroup
+  @useAuth(FormanceOAuth<["ledger:read"]>)
+  op info(): ServerInfo;
+}

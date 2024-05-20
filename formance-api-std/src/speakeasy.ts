@@ -36,6 +36,18 @@ export function $autoGroup(context: DecoratorContext, target: Operation) {
   if(target.decorators.find(d => d.decorator === $operationId) === undefined) {
     $operationId(context, target, `${groups.join("_")}_${target.name}`);
   }
+
+  setExtension(context.program, target, "x-speakeasy-retries", {
+    strategy: "backoff",
+    backoff: {
+      initialInterval: 500,        // 500 milliseconds
+      maxInterval: 60000,          // 60 seconds
+      maxElapsedTime: 3600000,     // 5 minutes
+      exponent: 1.5
+    },
+    statusCodes: ["5XX"],
+    retryConnectionErrors: true
+  })
 }
 
 export function $group() {

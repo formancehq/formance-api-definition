@@ -1,4 +1,4 @@
-namespace Ledger;
+namespace Formance.Ledger;
 
 enum LedgerErrors {
   INTERNAL,
