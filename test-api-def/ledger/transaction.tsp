@@ -41,14 +41,7 @@ model CreateTransactionBase {
   metadata?: Metadata,
 }
 
-model CreateTransactionInput {
-  ...CreateTransactionBase,
-  postings?: Posting[],
-  script?: {
-    plain: string,
-    vars?: Record<unknown>
-  }
-}
+alias CreateTransactionInput = CreateTransactionWithPostings | CreateTransactionWithNumscript;
 
 model CreateTransactionWithPostings {
   ...CreateTransactionBase,
@@ -101,17 +94,7 @@ namespace Transactions {
     @Speakeasy.autoGroup
     @post
     @useAuth(FormanceOAuth<["ledger:write"]>)
-    op create(@path ledger: string, ...CreateTransactionInput): FormanceResponse<Transaction[]> | LedgerError;
-
-    @overload(Formance.Ledger.Transactions.V1.create)
-    @post
-    @useAuth(FormanceOAuth<["ledger:write"]>)
-    op createWithNumscript(@path ledger: string, ...CreateTransactionWithNumscript): FormanceResponse<Transaction[]> | LedgerError;
-
-    @overload(Formance.Ledger.Transactions.V1.create)
-    @post
-    @useAuth(FormanceOAuth<["ledger:write"]>)
-    op createWithPostings(@path ledger: string, ...CreateTransactionWithPostings): FormanceResponse<Transaction[]> | LedgerError;
+    op create(@path ledger: string, @bodyRoot input: CreateTransactionInput): FormanceResponse<Transaction[]> | LedgerError;
 
     @Speakeasy.autoGroup
     @useAuth(FormanceOAuth<["ledger:read"]>)
