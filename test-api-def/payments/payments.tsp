@@ -41,20 +41,6 @@ model Payment extends PaymentBase {
   metadata?: Metadata;
 }
 
-enum Connector {
-  STRIPE,
-  `DUMMY-PAY`,
-  WISE,
-  MODULR,
-  `CURRENCY-CLOUD`,
-  `BANKING-CIRCLE`,
-  MANGOPAY,
-  MONEYCORP,
-  ATLAR,
-  ADYEN,
-  GENERIC,
-}
-
 enum PaymentType {
   `PAY-IN`,
   PAYOUT,
@@ -122,7 +108,7 @@ namespace Payments {
 
     @Speakeasy.autoGroup
     @useAuth(FormanceOAuth<["payments:write"]>)
-    create(...CreatePaymentRequest): FormanceResponse<Payment> | PaymentError;
+    create(...CreatePaymentRequest): FormanceResponse<Payment> | PaymentsError;
 
     @Speakeasy.autoGroup
     @useAuth(FormanceOAuth<["payments:read"]>)
@@ -139,12 +125,12 @@ namespace Payments {
       })
       sort?: string[],
       @query query?: string,
-    ): PaginatedResponse<Payment> | PaymentError;
+    ): PaginatedResponse<Payment> | PaymentsError;
 
     @Speakeasy.autoGroup
     @useAuth(FormanceOAuth<["payments:write"]>)
     @patch
     @route("{paymentId}/metadata")
-    op updateMetatdata(@path paymentId: string, ...Record<string>): void | PaymentError;
+    op updateMetatdata(@path paymentId: string, ...Record<string>): void | PaymentsError;
   }
 }

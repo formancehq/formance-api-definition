@@ -5,6 +5,7 @@ import "@formance/api-std";
 import "./errors.tsp";
 import "../oauth.tsp";
 import "./payments.tsp";
+import "./connectors.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -23,5 +24,5 @@ namespace Payments {
 
   @Speakeasy.autoGroup
   @route("/_info")
-  op info(): ServerInfo | PaymentError;
+  op info(): ServerInfo | PaymentsError;
 }

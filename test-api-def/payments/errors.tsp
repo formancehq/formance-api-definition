@@ -14,7 +14,7 @@ enum PaymentErrorCodes {
 
 @error
 @extension("x-speakeasy-name-override", "PaymentError")
-model PaymentError {
+model PaymentsError {
   errorCode: PaymentErrorCodes,
   errorMessage: string
 };
