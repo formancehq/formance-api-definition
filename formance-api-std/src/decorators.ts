@@ -1,7 +1,7 @@
-import { DecoratorContext, Operation, Type, isArrayModelType, isStringType, walkPropertiesInherited } from "@typespec/compiler";
-import { setExtension } from "@typespec/openapi";
+import { DecoratorContext, Operation, Type, isArrayModelType, isStringType, walkPropertiesInherited, Program, Interface } from "@typespec/compiler";
+import { setExtension, $operationId } from "@typespec/openapi";
 import { $query } from "@typespec/http";
-import { reportDiagnostic } from "./lib.js";
+import { reportDiagnostic, StateKeys } from "./lib.js";
 
 export const namespace = "FormanceApiStd";
 
@@ -154,4 +154,51 @@ export function $paginated(context: DecoratorContext, target: Operation) {
       results: "$.cursor.data"
     }
   })
+}
+
+function getSpeakeasyGroups(program: Program, opInterface?: Interface): string[] {
+  if(opInterface === undefined) {
+    return [];
+  }
+
+  const groups = program.stateMap(StateKeys.speakeasyGroup).get(opInterface);
+  if(groups === undefined) {
+    return [];
+  }
+
+  return groups;
+}
+
+export function $operation(context: DecoratorContext, target: Operation) {
+  const groups = getSpeakeasyGroups(context.program, target.interface);
+  setSpeakeseasyGroup(context.program, target, groups);
+  setExtension(context.program, target, "x-speakeasy-name-override", target.name);
+  setExtension(context.program, target, "x-speakeasy-errors", {
+    statusCodes: ["default"]
+  });
+
+  if(target.decorators.find(d => d.decorator === $operationId) === undefined) {
+    $operationId(context, target, `${groups.join("_")}_${target.name}`);
+  }
+
+  setExtension(context.program, target, "x-speakeasy-retries", {
+    strategy: "backoff",
+    backoff: {
+      initialInterval: 500,        // 500 milliseconds
+      maxInterval: 60000,          // 60 seconds
+      maxElapsedTime: 3600000,     // 5 minutes
+      exponent: 1.5
+    },
+    statusCodes: ["5XX"],
+    retryConnectionErrors: true
+  })
+}
+
+export function setSpeakeseasyGroup(program: Program, target: Operation, group: string[]) {
+  if(group.length === 0) {
+    return;
+  }
+
+  const groupStr = group.join(".");
+  setExtension(program, target, "x-speakeasy-group", groupStr);
 }

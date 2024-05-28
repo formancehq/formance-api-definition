@@ -1,4 +1,3 @@
 packages:
   - formance-api-std
-  - test-api-def
-  - formance-sdk-typescript
+  - formance-api-def

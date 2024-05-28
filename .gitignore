@@ -2,3 +2,4 @@ node_modules
 tsp-output
 dist
 formance-sdk-typescript
+formance-sdk-java

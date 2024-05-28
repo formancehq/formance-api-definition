@@ -12,7 +12,12 @@ using TypeSpec.Http;
 using TypeSpec.Rest;
 using FormanceApiStd;
 
-namespace Formance;
+@service({
+  title: "Formance Ledger API",
+
+})
+@server("http://localhost", "Default localhost endpoint")
+namespace Ledger;
 
 model ServerInfo {
   version: string;
@@ -20,10 +25,9 @@ model ServerInfo {
 
 #suppress "@typespec/http/no-service-found" "This is the definition of a service as part of the Formance stack."
 @route("/api/ledger")
-@Speakeasy.group
 namespace Ledger {
   @route("_info")
-  @Speakeasy.autoGroup
+  @FormanceApiStd.operation
   @useAuth(FormanceOAuth<["ledger:read"]>)
   op info(): ServerInfo;
 }

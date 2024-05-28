@@ -4,7 +4,7 @@ import "@typespec/openapi";
 import "./errors.tsp";
 import "../oauth.tsp";
 
-namespace Formance.Payments;
+namespace Payments;
 
 using FormanceApiStd;
 using TypeSpec.Http;
@@ -184,72 +184,69 @@ alias Task =
   | TaskMangoPay
   | TaskMoneyCorp;
 
-@Speakeasy.group
+@Speakeasy.group("connectors", "v1")
 @route("connectors")
-namespace Connectors {
-  @Speakeasy.group
-  interface V1 {
-    @Speakeasy.autoGroup
-    @useAuth(FormanceOAuth<["payments:write"]>)
-    install(@path connector: Connector, @bodyRoot config: ConnectorConfig): {
-      @statusCode _: 201;
-      ...FormanceResponse<{
-        connectorId: string;
-      }>;
-    } | PaymentsError;
+interface ConnectorsV1 {
+  @FormanceApiStd.operation
+  @useAuth(FormanceOAuth<["payments:write"]>)
+  install(@path connector: Connector, @bodyRoot config: ConnectorConfig): {
+    @statusCode _: 201;
+    ...FormanceResponse<{
+      connectorId: string;
+    }>;
+  } | PaymentsError;
 
-    @Speakeasy.autoGroup
-    @delete
-    @useAuth(FormanceOAuth<["payments:write"]>)
-    uninstall(
-      @path connector: Connector,
-      @path connectorID: string,
-    ): void | PaymentsError;
+  @FormanceApiStd.operation
+  @delete
+  @useAuth(FormanceOAuth<["payments:write"]>)
+  uninstall(
+    @path connector: Connector,
+    @path connectorID: string,
+  ): void | PaymentsError;
 
-    @Speakeasy.autoGroup
-    @post
-    @useAuth(FormanceOAuth<["payments:write"]>)
-    update(
-      @path connector: Connector,
-      @path connectorID: string,
-      @bodyRoot config: ConnectorConfig,
-    ): void | PaymentsError;
+  @FormanceApiStd.operation
+  @post
+  @useAuth(FormanceOAuth<["payments:write"]>)
+  update(
+    @path connector: Connector,
+    @path connectorID: string,
+    @bodyRoot config: ConnectorConfig,
+  ): void | PaymentsError;
 
-    @Speakeasy.autoGroup
-    @useAuth(FormanceOAuth<["payments:read"]>)
-    @route("{connector}/{connectorId}/config")
-    get(
-      @path connector: Connector,
-      @path connectorId: string,
-    ): FormanceResponse<ConnectorConfig> | PaymentsError;
+  @FormanceApiStd.operation
+  @useAuth(FormanceOAuth<["payments:read"]>)
+  @route("{connector}/{connectorId}/config")
+  get(
+    @path connector: Connector,
+    @path connectorId: string,
+  ): FormanceResponse<ConnectorConfig> | PaymentsError;
 
-    @Speakeasy.autoGroup
-    @useAuth(FormanceOAuth<["payments:write"]>)
-    @route("{connector}/{connectorId}/reset")
-    @post
-    reset(
-      @path connector: Connector,
-      @path connectorId: string,
-    ): void | PaymentsError;
+  @FormanceApiStd.operation
+  @useAuth(FormanceOAuth<["payments:write"]>)
+  @route("{connector}/{connectorId}/reset")
+  @post
+  reset(
+    @path connector: Connector,
+    @path connectorId: string,
+  ): void | PaymentsError;
 
-    @Speakeasy.autoGroup
-    @useAuth(FormanceOAuth<["payments:read"]>)
-    @route("{connector}/{connectorId}/tasks")
-    @paginated
-    listTask(
-      @path connector: Connector,
-      @path connectorId: string,
-      @query pageSize?: int64 = 15,
-      @query cursor?: string
-    ): PaginatedResponse<Task> | PaymentsError;
+  @FormanceApiStd.operation
+  @useAuth(FormanceOAuth<["payments:read"]>)
+  @route("{connector}/{connectorId}/tasks")
+  @paginated
+  listTask(
+    @path connector: Connector,
+    @path connectorId: string,
+    @query pageSize?: int64 = 15,
+    @query cursor?: string
+  ): PaginatedResponse<Task> | PaymentsError;
 
-    @Speakeasy.autoGroup
-    @useAuth(FormanceOAuth<["payments:read"]>)
-    @route("{connector}/{connectorId}/tasks/{taskId}")
-    getTask(
-      @path connector: Connector,
-      @path connectorId: string,
-      @path taskId: string
-    ): FormanceResponse<Task> | PaymentsError;
-  }
+  @FormanceApiStd.operation
+  @useAuth(FormanceOAuth<["payments:read"]>)
+  @route("{connector}/{connectorId}/tasks/{taskId}")
+  getTask(
+    @path connector: Connector,
+    @path connectorId: string,
+    @path taskId: string
+  ): FormanceResponse<Task> | PaymentsError;
 }

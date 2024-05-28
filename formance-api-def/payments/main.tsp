@@ -11,18 +11,21 @@ using TypeSpec.Http;
 using TypeSpec.Rest;
 using FormanceApiStd;
 
-namespace Formance;
+@service({
+  title: "Formance Payments API",
 
-#suppress "@typespec/http/no-service-found" ""
-@Speakeasy.group
+})
+@server("http://localhost", "Default localhost endpoint")
+namespace Payments;
+
 @route("/api/payments")
-@useAuth(FormanceOAuth<["payments:read"]>)
 namespace Payments {
   model ServerInfo {
     version: string;
   }
 
-  @Speakeasy.autoGroup
+  @FormanceApiStd.operation
+  @useAuth(FormanceOAuth<["payments:read"]>)
   @route("/_info")
   op info(): ServerInfo | PaymentsError;
 }

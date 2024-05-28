@@ -63,6 +63,9 @@ export const $lib = createTypeSpecLibrary({
         default: "The 'data' property of the 'cursor' object must be an array."
       }
     },
+  },
+  state: {
+    speakeasyGroup: { description: "The group that the interface belongs to for Speakeasy." },
   }
 });
 

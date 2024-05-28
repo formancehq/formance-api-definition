@@ -4,7 +4,7 @@ import "@typespec/openapi";
 import "./errors.tsp";
 import "../oauth.tsp";
 
-namespace Formance.Payments;
+namespace Payments;
 
 using FormanceApiStd;
 using TypeSpec.Http;
@@ -97,40 +97,38 @@ model PaymentAdjustment {
   raw: Record<unknown>;
 }
 
-@Speakeasy.group
+@Speakeasy.group("payments", "v1")
 @route("/payments")
-namespace Payments {
-  @Speakeasy.group
-  interface V1 {
-    @Speakeasy.autoGroup
-    @useAuth(FormanceOAuth<["payments:read"]>)
-    get(@path payementId: string): FormanceResponse<Payment>;
+interface PaymentsV1 {
+  @FormanceApiStd.operation
+  @useAuth(FormanceOAuth<["payments:read"]>)
+  get(@path payementId: string): FormanceResponse<Payment>;
 
-    @Speakeasy.autoGroup
-    @useAuth(FormanceOAuth<["payments:write"]>)
-    create(...CreatePaymentRequest): FormanceResponse<Payment> | PaymentsError;
+  @FormanceApiStd.operation
+  @useAuth(FormanceOAuth<["payments:write"]>)
+  create(...CreatePaymentRequest): FormanceResponse<Payment> | PaymentsError;
 
-    @Speakeasy.autoGroup
-    @useAuth(FormanceOAuth<["payments:read"]>)
-    @paginated
-    list(
-      @query
-      @minValue(1)
-      @maxValue(1000)
-      pageSize?: int64,
+  @FormanceApiStd.operation
+  @useAuth(FormanceOAuth<["payments:read"]>)
+  @paginated
+  list(
+    @query
+    @minValue(1)
+    @maxValue(1000)
+    pageSize?: int64,
 
-      @query cursor?: string,
-      @query({
-        format: "multi",
-      })
-      sort?: string[],
-      @query query?: string,
-    ): PaginatedResponse<Payment> | PaymentsError;
+    @query cursor?: string,
+    @query({
+      format: "multi",
+    })
+    sort?: string[],
+    @query query?: string,
+  ): PaginatedResponse<Payment> | PaymentsError;
 
-    @Speakeasy.autoGroup
-    @useAuth(FormanceOAuth<["payments:write"]>)
-    @patch
-    @route("{paymentId}/metadata")
-    op updateMetatdata(@path paymentId: string, ...Record<string>): void | PaymentsError;
-  }
+  @FormanceApiStd.operation
+  @useAuth(FormanceOAuth<["payments:write"]>)
+  @patch
+  @route("{paymentId}/metadata")
+  op updateMetatdata(@path paymentId: string, ...Record<string>): void | PaymentsError;
 }
+

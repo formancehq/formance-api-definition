@@ -25,7 +25,8 @@ model PaginatedResponse<T> {
   }
 }
 
+extern dec operation(target: Operation);
+
 namespace Speakeasy {
-  extern dec autoGroup(target: Operation);
-  extern dec group(target: Namespace | Interface);
+  extern dec group(target: Interface, ...groups: valueof string[]);
 };
