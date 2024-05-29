@@ -28,3 +28,6 @@ jobs:
 
       - name: Release API spec
         run: speakeasy run -s all
+        env:
+          SPEAKEASY_API_KEY: ${{ secrets.SPEAKEASY_API_KEY }}
+          
