@@ -2,14 +2,20 @@ speakeasyVersion: 1.297.0
 sources:
     ledger:
         sourceNamespace: ledger
-        sourceRevisionDigest: sha256:d7f77f54c2898b175fe2ae751a456bda14245c5f3f0a63e9947481e5b0d43853
+        sourceRevisionDigest: sha256:1b9d18139602afcd062ab18a0f1b420240c69deba0164d5ba1c7ca1512727ec0
         sourceBlobDigest: sha256:c6052d4c9c3cf9d16461499bbbb58eb6af2e1856d2039332526fa746ddde44b3
         tags:
             - latest
     payments:
         sourceNamespace: payments
-        sourceRevisionDigest: sha256:57d9f53bde836316e7bc987b1d8c276e3309ebc825185696b56da0adf4decfbc
+        sourceRevisionDigest: sha256:59bcc4962a6287429d1d795a4ecc6f9fdf18808e97d4407ba1e5b113b970ad84
         sourceBlobDigest: sha256:1261c884741b3089480678be72cc729c4c77e905c1d838cc60f326c191a3e8ea
+        tags:
+            - latest
+    reconciliation:
+        sourceNamespace: reconciliation
+        sourceRevisionDigest: sha256:5703bca11b8f9e2d38ea168a6923a01d936939fac5505b4d9a3ca94390e42922
+        sourceBlobDigest: sha256:0579df688927358dae8d1c86040c75072fae546d637938adc037aec6769bc4b1
         tags:
             - latest
 targets:
@@ -63,4 +69,9 @@ workflow:
                 - location: ./formance-api-def/tsp-output/@typespec/openapi3/Payments-openapi.yaml
             registry:
                 location: registry.speakeasyapi.dev/formance/formance/payments
+        reconciliation:
+            inputs:
+                - location: ./formance-api-def/tsp-output/@typespec/openapi3/Reconciliation-openapi.yaml
+            registry:
+                location: registry.speakeasyapi.dev/formance/formance/reconciliation
     targets: {}

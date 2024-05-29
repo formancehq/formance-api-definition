@@ -11,3 +11,9 @@ sources:
             - location: ./formance-api-def/tsp-output/@typespec/openapi3/Payments-openapi.yaml
         registry:
             location: registry.speakeasyapi.dev/formance/formance/payments
+    reconciliation:
+        inputs:
+            - location: ./formance-api-def/tsp-output/@typespec/openapi3/Reconciliation-openapi.yaml
+        registry:
+            location: registry.speakeasyapi.dev/formance/formance/reconciliation
+targets: {}
