@@ -67,7 +67,7 @@ model TransactionFilters {
 }
 
 @route("{ledger}/transactions")
-@Speakeasy.group("transactions", "v1")
+@Speakeasy.group("TransactionsV1")
 interface TransactionV1 {
 
   @FormanceApiStd.operation

@@ -1,0 +1,13 @@
+workflowVersion: 1.0.0
+speakeasyVersion: latest
+sources:
+    ledger:
+        inputs:
+            - location: ./formance-api-def/tsp-output/@typespec/openapi3/Ledger-openapi.yaml
+        registry:
+            location: registry.speakeasyapi.dev/formance/formance/ledger
+    payments:
+        inputs:
+            - location: ./formance-api-def/tsp-output/@typespec/openapi3/Payments-openapi.yaml
+        registry:
+            location: registry.speakeasyapi.dev/formance/formance/payments

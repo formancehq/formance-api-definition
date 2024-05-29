@@ -97,7 +97,7 @@ model PaymentAdjustment {
   raw: Record<unknown>;
 }
 
-@Speakeasy.group("payments", "v1")
+@Speakeasy.group("PaymentsV1")
 @route("/payments")
 interface PaymentsV1 {
   @FormanceApiStd.operation

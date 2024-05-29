@@ -1,0 +1,66 @@
+speakeasyVersion: 1.297.0
+sources:
+    ledger:
+        sourceNamespace: ledger
+        sourceRevisionDigest: sha256:d7f77f54c2898b175fe2ae751a456bda14245c5f3f0a63e9947481e5b0d43853
+        sourceBlobDigest: sha256:c6052d4c9c3cf9d16461499bbbb58eb6af2e1856d2039332526fa746ddde44b3
+        tags:
+            - latest
+    payments:
+        sourceNamespace: payments
+        sourceRevisionDigest: sha256:57d9f53bde836316e7bc987b1d8c276e3309ebc825185696b56da0adf4decfbc
+        sourceBlobDigest: sha256:1261c884741b3089480678be72cc729c4c77e905c1d838cc60f326c191a3e8ea
+        tags:
+            - latest
+targets:
+    ledger-java:
+        source: ledger
+        sourceNamespace: ledger
+        sourceRevisionDigest: sha256:d7f77f54c2898b175fe2ae751a456bda14245c5f3f0a63e9947481e5b0d43853
+        sourceBlobDigest: sha256:c6052d4c9c3cf9d16461499bbbb58eb6af2e1856d2039332526fa746ddde44b3
+        outLocation: ./sdks/formance-sdk-java/client-ledger
+    ledger-python:
+        source: ledger
+        sourceNamespace: ledger
+        sourceRevisionDigest: sha256:d7f77f54c2898b175fe2ae751a456bda14245c5f3f0a63e9947481e5b0d43853
+        sourceBlobDigest: sha256:c6052d4c9c3cf9d16461499bbbb58eb6af2e1856d2039332526fa746ddde44b3
+        outLocation: ./sdks/formance-sdk-python/client-ledger
+    ledger-ts:
+        source: ledger
+        sourceNamespace: ledger
+        sourceRevisionDigest: sha256:d7f77f54c2898b175fe2ae751a456bda14245c5f3f0a63e9947481e5b0d43853
+        sourceBlobDigest: sha256:c6052d4c9c3cf9d16461499bbbb58eb6af2e1856d2039332526fa746ddde44b3
+        outLocation: ./sdks/formance-sdk-typescript/client-ledger
+    payments-java:
+        source: payments
+        sourceNamespace: payments
+        sourceRevisionDigest: sha256:57d9f53bde836316e7bc987b1d8c276e3309ebc825185696b56da0adf4decfbc
+        sourceBlobDigest: sha256:1261c884741b3089480678be72cc729c4c77e905c1d838cc60f326c191a3e8ea
+        outLocation: ./sdks/formance-sdk-java/client-payments
+    payments-python:
+        source: payments
+        sourceNamespace: payments
+        sourceRevisionDigest: sha256:57d9f53bde836316e7bc987b1d8c276e3309ebc825185696b56da0adf4decfbc
+        sourceBlobDigest: sha256:1261c884741b3089480678be72cc729c4c77e905c1d838cc60f326c191a3e8ea
+        outLocation: ./sdks/formance-sdk-python/client-payments
+    payments-ts:
+        source: payments
+        sourceNamespace: payments
+        sourceRevisionDigest: sha256:57d9f53bde836316e7bc987b1d8c276e3309ebc825185696b56da0adf4decfbc
+        sourceBlobDigest: sha256:1261c884741b3089480678be72cc729c4c77e905c1d838cc60f326c191a3e8ea
+        outLocation: ./sdks/formance-sdk-typescript/client-payments
+workflow:
+    workflowVersion: 1.0.0
+    speakeasyVersion: latest
+    sources:
+        ledger:
+            inputs:
+                - location: ./formance-api-def/tsp-output/@typespec/openapi3/Ledger-openapi.yaml
+            registry:
+                location: registry.speakeasyapi.dev/formance/formance/ledger
+        payments:
+            inputs:
+                - location: ./formance-api-def/tsp-output/@typespec/openapi3/Payments-openapi.yaml
+            registry:
+                location: registry.speakeasyapi.dev/formance/formance/payments
+    targets: {}

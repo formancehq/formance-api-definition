@@ -16,7 +16,7 @@ model Account {
   metadata: Record<string>
 }
 
-@Speakeasy.group("accounts", "v1")
+@Speakeasy.group("AccountsV1")
 @route("{ledger}/accounts")
 interface AccountsV1 {
   

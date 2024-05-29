@@ -184,7 +184,7 @@ alias Task =
   | TaskMangoPay
   | TaskMoneyCorp;
 
-@Speakeasy.group("connectors", "v1")
+@Speakeasy.group("ConnectorsV1")
 @route("connectors")
 interface ConnectorsV1 {
   @FormanceApiStd.operation

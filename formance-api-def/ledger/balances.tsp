@@ -10,7 +10,7 @@ using TypeSpec.Http;
 model AccountBalances is Record<AssetBalances>;
 model AssetBalances is Record<integer>;
 
-@Speakeasy.group("balances", "v1")
+@Speakeasy.group("BalancesV1")
 interface BalancesV1 {
 
   @FormanceApiStd.operation
