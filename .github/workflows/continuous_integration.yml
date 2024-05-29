@@ -1,0 +1,16 @@
+name: Continous integration
+
+on:
+  # Trigger the workflow on push or pull request, except for the main branch
+  push:
+    branches:
+      - '*'
+      #- '!main'
+  pull_request:
+    branches:
+      - '*'
+
+jobs:
+  #Build the OpenAPI definition using the "build-openapi.yml" workflow
+  build-openapi:
+    uses: "./.github/workflows/build-openapi.yml"
