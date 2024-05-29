@@ -2,6 +2,9 @@
   "name": "test-api-def",
   "version": "0.1.0",
   "type": "module",
+  "scripts": {
+    "build": "tsp compile ."
+  },
   "dependencies": {
     "@formance/api-std": "workspace:*",
     "@typespec/compiler": "^0.56.0",
