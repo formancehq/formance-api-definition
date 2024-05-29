@@ -1,0 +1,30 @@
+name: Build and release API spec
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-openapi:
+    uses: "./.github/workflows/build-openapi.yml"
+
+  release-api-spec:
+    runs-on: ubuntu-latest
+    needs: build-openapi
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: tsp-output
+          path: formance-api-def/tsp-output
+
+      - name: Install Speakeasy CLI
+        run: curl -fsSL https://raw.githubusercontent.com/speakeasy-api/speakeasy/main/install.sh | sh
+
+      - name: Release API spec
+        run: speakeasy run -s all
