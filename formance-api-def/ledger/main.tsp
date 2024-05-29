@@ -23,7 +23,6 @@ model ServerInfo {
   version: string;
 }
 
-#suppress "@typespec/http/no-service-found" "This is the definition of a service as part of the Formance stack."
 @route("/api/ledger")
 namespace Ledger {
   @route("_info")
