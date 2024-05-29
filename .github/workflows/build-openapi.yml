@@ -30,6 +30,10 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install
+
+      - name: Build Formance API standards
+        run: pnpm run build
+        working-directory: formance-api-std
       
       - name: Build OpenAPI
         run: pnpm run build
