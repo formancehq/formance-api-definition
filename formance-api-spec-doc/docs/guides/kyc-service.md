@@ -1,5 +1,5 @@
 ---
-title: Wrtiting a service spec
+title: Writing a service spec
 description: Writing a service spec for Formance API.
 sidebar_pos: 2
 ---
