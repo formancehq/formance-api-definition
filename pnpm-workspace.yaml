@@ -1,3 +1,4 @@
 packages:
   - formance-api-std
   - formance-api-def
+  - formance-api-spec-doc
