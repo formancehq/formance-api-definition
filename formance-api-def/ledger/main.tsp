@@ -18,16 +18,15 @@ using FormanceApiStd;
 
 })
 @server("http://localhost", "Default localhost endpoint")
+@route("/api/ledger/v2")
 namespace Ledger;
 
 model ServerInfo {
   version: string;
 }
 
-@route("/api/ledger/v2")
-namespace Ledger {
-  @route("_info")
-  @FormanceApiStd.operation
-  @useAuth(FormanceOAuth<["ledger:read"]>)
-  op info(): ServerInfo;
-}
+@route("_info")
+@FormanceApiStd.operation
+@useAuth(FormanceOAuth<["ledger:read"]>)
+op info(): ServerInfo;
+
