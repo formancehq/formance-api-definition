@@ -2,7 +2,7 @@ import "@formance/api-std";
 import "@typespec/http";
 import "@typespec/openapi3";
 import "./errors.tsp";
-import "../oauth.tsp";
+import "./auth.tsp";
 
 namespace Ledger;
 
@@ -10,111 +10,135 @@ using FormanceApiStd;
 using TypeSpec.Http;
 using TypeSpec.OpenAPI;
 
-alias Metadata = Record<unknown>;
+alias Metadata = Record<string>;
 alias Volumes = Record<Record<{
-  input: integer,
-  output: integer,
-  balance?: integer
+  input: integer;
+  output: integer;
+  balance?: integer;
 }>>;
 
 model Posting {
-  amount: integer,
-  asset: string,
-  destination: string,
-  source: string
+  @minValue(0) amount: integer;
+  asset: string;
+  destination: string;
+  source: string;
 }
 
 model Transaction {
   timestamp: utcDateTime;
-  postings: Posting[],
-  reference? : string,
-  metadata?: Metadata,
-  txId: string,
-  preCommitVolumes?: Volumes,
-  postCommitVolumes?: Volumes
+  postings: Posting[];
+  reference?: string;
+  metadata: Metadata;
+  id: string;
+  reverted: boolean;
 }
 
-
 model CreateTransactionBase {
-  timestamp?: utcDateTime,
-  reference?: string,
-  metadata?: Metadata,
+  timestamp?: utcDateTime;
+  reference?: string;
+  metadata: Metadata;
 }
 
 alias CreateTransactionInput = CreateTransactionWithPostings | CreateTransactionWithNumscript;
 
 model CreateTransactionWithPostings {
-  ...CreateTransactionBase,
-  postings: Posting[]
+  ...CreateTransactionBase;
+  postings: Posting[];
 }
 
-model CreateTransactionWithNumscript { 
-  ...CreateTransactionBase,
+model CreateTransactionWithNumscript {
+  ...CreateTransactionBase;
   script: {
-    plain: string,
-    vars?: Record<unknown>
-  }
+    plain: string;
+    vars?: Record<unknown>;
+  };
 }
 
-model TransactionFilters {
-  @query reference?: string,
-  @query account?: string,
-  @query source?: string,
-  @query destination?: string,
-  @query startTime?: string,
-  @query endTime?: string,
-  @query metadata?: Record<unknown>
+model ExpendedTransaction {
+  ...Transaction;
+  preCommitVolumes?: Volumes;
+  postCommitVolumes?: Volumes;
 }
+
+alias TransactionFilters = Record<unknown>;
 
 @route("{ledger}/transactions")
-@Speakeasy.group("TransactionsV1")
-interface TransactionV1 {
-
+@Speakeasy.group("Transactions")
+interface Transactions {
   @FormanceApiStd.operation
   @head
-  @useAuth(FormanceOAuth<["ledger:read"]>)
-  op count(
+  @useAuth(LedgerRead)
+  count(
     @path ledger: string,
-    ...TransactionFilters
-  ): int64 | LedgerError;
+    @query pit?: utcDateTime,
+    @query query?: TransactionFilters,
+  ): {
+    @header("Count") @minValue(0) count: int64;
+    @statusCode _: 204;
+  } | LedgerError;
 
   @FormanceApiStd.operation
   @useAuth(FormanceOAuth<["ledger:read"]>)
   @paginated
-  op list(
+  list(
     @path ledger: string,
-
-    @query @minValue(1) @maxValue(1000) pageSize?: int64,
-    @query cursor?: string,
-    ...TransactionFilters
+    @query expand?: string,
+    @query pit?: boolean,
+    ...PaginatedQuery,
+    @query query?: TransactionFilters,
   ): PaginatedResponse<Transaction> | LedgerError;
 
   @FormanceApiStd.operation
   @post
-  @useAuth(FormanceOAuth<["ledger:write"]>)
-  op create(@path ledger: string, @bodyRoot @oneOf input: CreateTransactionInput): FormanceResponse<Transaction[]> | LedgerError;
+  @useAuth(LedgerWrite)
+  create(
+    @path ledger: string,
+    @bodyRoot @oneOf input: CreateTransactionInput,
+    @header("Idempotency-Key") idenpotencyKey?: string,
+    @query dryRun?: boolean,
+  ): FormanceResponse<Transaction> | LedgerError;
 
   @FormanceApiStd.operation
-  @useAuth(FormanceOAuth<["ledger:read"]>)
-  op get(@path ledger: string, @path txid: integer): Transaction | LedgerError;
+  @useAuth(LedgerRead)
+  get(
+    @path ledger: string,
+    @path id: integer,
+    @query expand?: string,
+    @query pit?: utcDateTime,
+  ): FormanceResponse<ExpendedTransaction> | LedgerError;
 
-  @route("{txid}/metadata")
+  @route("{id}/metadata")
   @FormanceApiStd.operation
-  @useAuth(FormanceOAuth<["ledger:write"]>)
-  op addMetadata(@path ledger: string, @path txid: integer, metadata: Metadata): void | LedgerError;
+  @useAuth(LedgerWrite)
+  addMetadata(
+    @path ledger: string,
+    @path id: integer,
+    metadata: Metadata,
+    @query dryRun?: boolean,
+    @header("Idempotency-Key") idempotencyKey?: string,
+  ): void | LedgerError;
+
+  @route("{id}/metadata/{key}")
+  @FormanceApiStd.operation
+  @useAuth(LedgerWrite)
+  @delete
+  deleteMetadata(
+    @path ledger: string,
+    @path id: string,
+    @path key: string,
+  ): void | LedgerError;
 
   @post
-  @route("{txid}/revert")
+  @route("{id}/revert")
   @FormanceApiStd.operation
-  @useAuth(FormanceOAuth<["ledger:write"]>)
-  op revert(@path ledger: string, @path txid: integer, @query disableChecks?: boolean): {
-    @statusCode _: 201,
-    ...FormanceResponse<Transaction>
+  @useAuth(LedgerWrite)
+  revert(
+    @path ledger: string,
+    @path id: integer,
+    @query force?: boolean,
+    @query atEffectiveDate?: utcDateTime,
+  ): {
+    @statusCode _: 201;
+    ...FormanceResponse<Transaction>;
   } | LedgerError;
-
-  @post
-  @route("/batch")
-  @FormanceApiStd.operation
-  @useAuth(FormanceOAuth<["ledger:write"]>)
-  op batchCreate(@path ledger: string, transaction: CreateTransactionWithPostings[]): FormanceResponse<Transaction[]> | LedgerError;
 }
