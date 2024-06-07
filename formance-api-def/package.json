@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "build": "tsp compile ."
+    "build": "tsp compile .",
+    "watch": "tsp compile . --watch"
   },
   "dependencies": {
     "@formance/api-std": "workspace:*",

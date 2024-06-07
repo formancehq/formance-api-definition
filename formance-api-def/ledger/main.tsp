@@ -7,6 +7,7 @@ import "./account.tsp";
 import "./transaction.tsp";
 import "../oauth.tsp";
 import "./balances.tsp";
+import "./ledgers.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
@@ -23,7 +24,7 @@ model ServerInfo {
   version: string;
 }
 
-@route("/api/ledger")
+@route("/api/ledger/v2")
 namespace Ledger {
   @route("_info")
   @FormanceApiStd.operation

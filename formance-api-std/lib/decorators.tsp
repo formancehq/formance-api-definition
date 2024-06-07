@@ -15,7 +15,10 @@ extern dec paginated(target: Operation);
 
 model PaginatedQuery {
   @query
-  cursor?: string
+  cursor?: string;
+
+  @query
+  pageSize?: int64;
 }
 
 model PaginatedResponse<T> {
