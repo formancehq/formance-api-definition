@@ -136,6 +136,20 @@ union BulkResponse {
   DELETE_METADATA: DeleteMetadataActionResponse,
 }
 
+enum LogEntryType {
+  NEW_TRANSACTION,
+  SET_METADATA,
+  REVERT_TRANSACTION,
+}
+
+model LogEntry {
+  @minValue(0) id: integer;
+  type: LogEntryType;
+  data: unknown;
+  hash: string;
+  date: utcDateTime;
+}
+
 @Speakeasy.group("Ledgers")
 interface Ledgers {
   @FormanceApiStd.operation
@@ -186,4 +200,13 @@ interface Ledgers {
     @minValue(0) account: int64;
     @minValue(0) transactions: int64;
   }> | LedgerError;
+
+  @FormanceApiStd.operation
+  @paginated
+  @useAuth(LedgerRead)
+  @route("{ledger}/logs")
+  listLogs(
+    @path ledger: string,
+    ...PaginatedQuery,
+  ): PaginatedResponse<LogEntry>;
 }
