@@ -6,6 +6,7 @@ import "./errors.tsp";
 import "../oauth.tsp";
 import "./payments.tsp";
 import "./connectors.tsp";
+import "./transfer_initiations.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
