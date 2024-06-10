@@ -2,7 +2,7 @@ import "@formance/api-std";
 import "@typespec/http";
 import "./utils.tsp";
 import "./errors.tsp";
-import "../oauth.tsp";
+import "./auth.tsp";
 
 using Http;
 using Rest;
@@ -12,31 +12,41 @@ namespace Ledger;
 
 model Account {
   address: string;
-  type: string;
-  metadata: Record<string>
+  metadata: Record<string>;
+  volumes: Record<Volume>;
+  effectiveVolumes: Record<Volume>;
 }
 
-@Speakeasy.group("AccountsV1")
+@Speakeasy.group("Accounts")
 @route("{ledger}/accounts")
-interface AccountsV1 {
+interface Accounts {
   
   @paginated
   @FormanceApiStd.operation
-  @useAuth(FormanceOAuth<["ledger:read"]>)
-  op list(@path ledger: string, @query cursor?: string): PaginatedResponse<Account> | LedgerError;
+  @useAuth(LedgerRead)
+  op list(@path ledger: string, ...PaginatedQuery, @query pit?: utcDateTime, @query expand?: string): PaginatedResponse<Account> | LedgerError;
 
   @FormanceApiStd.operation
-  @useAuth(FormanceOAuth<["ledger:read"]>)
-  op get(@path ledger: string, @path address: string): FormanceResponse<Account> | LedgerError;
+  @useAuth(LedgerRead)
+  op get(@path ledger: string, @path address: string, @query pit?: utcDateTime, @query expand?: string): FormanceResponse<Account> | LedgerError;
 
   @FormanceApiStd.operation
   @head
-  @useAuth(FormanceOAuth<["ledger:read"]>)
-  op count(@path ledger: string, @query address: string, @query metadata: Record<unknown>): int64 | LedgerError;
+  @useAuth(LedgerRead)
+  op count(@path ledger: string, @query address: string, @query pit?: utcDateTime, @query query: Record<unknown>): {
+    @statusCode _: 204,
+    @header("Count") count: int64
+  } | LedgerError;
 
   @FormanceApiStd.operation
   @action("metadata")
   @route("{address}/metadata")
-  @useAuth(FormanceOAuth<["ledger:write"]>)
+  @useAuth(LedgerWrite)
   op addMetadata(@path ledger: string, @path address: string, metadata: Record<unknown>): { @statusCode _: 204 } | LedgerError;
+
+  @FormanceApiStd.operation
+  @route("{address}/metatdata/{key}")
+  @useAuth(LedgerWrite)
+  @delete
+  op removeMetadata(@path ledger: string, @path address: string, @path key: string): void | LedgerError;
 }

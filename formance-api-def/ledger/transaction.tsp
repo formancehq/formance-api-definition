@@ -10,12 +10,14 @@ using FormanceApiStd;
 using TypeSpec.Http;
 using TypeSpec.OpenAPI;
 
-alias Metadata = Record<string>;
-alias Volumes = Record<Record<{
+model Volume {
   input: integer;
   output: integer;
   balance?: integer;
-}>>;
+}
+
+alias Metadata = Record<string>;
+alias Volumes = Record<Record<Volume>>;
 
 model Posting {
   @minValue(0) amount: integer;

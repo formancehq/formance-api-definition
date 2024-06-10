@@ -18,6 +18,8 @@ model PaginatedQuery {
   cursor?: string;
 
   @query
+  @minValue(1)
+  @maxValue(1000)
   pageSize?: int64;
 }
 
