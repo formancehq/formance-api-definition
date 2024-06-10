@@ -7,18 +7,42 @@ namespace Ledger;
 using FormanceApiStd;
 using TypeSpec.Http;
 
-model AccountBalances is Record<AssetBalances>;
-model AssetBalances is Record<integer>;
+model VolumeItem {
+  account: string;
+  asset: string;
+  input: integer;
+  output: integer;
+  balance: integer;
+}
 
-@Speakeasy.group("BalancesV1")
-interface BalancesV1 {
-
-  @FormanceApiStd.operation
-  @paginated
-  @route("{ledger}/balances")
-  op get(@path ledger: string, @query pageSize?: string, @query cursor?: string, @query address?: string, @query after?: string): PaginatedResponse<AccountBalances[]> | LedgerError;
-
-  @FormanceApiStd.operation
+@Speakeasy.group("Balances")
+interface Balances {
   @route("{ledger}/aggregate/balances")
-  op aggregate(@path ledger: string, @query address?: string, @query useInsertionData?: boolean): FormanceResponse<AssetBalances> | LedgerError;
+  @FormanceApiStd.operation
+  @useAuth(LedgerRead)
+  aggregate(
+    @path ledger: string,
+    @query pit?: utcDateTime,
+    @query useInsertionDate?: boolean,
+    @query query: Record<unknown>,
+  ): FormanceResponse<Record<unknown>> | LedgerError;
+
+  @route("{ledger}/volumes")
+  @FormanceApiStd.operation
+  @useAuth(LedgerRead)
+  @paginated
+  volumes(
+    @path ledger: string,
+    ...PaginatedQuery,
+    @query startTime?: utcDateTime,
+    @query endTime?: utcDateTime,
+    @query inseritionDate?: boolean,
+
+    @query
+    @minValue(0)
+    @maxValue(1000)
+    groupBy?: int64,
+
+    @query query: Record<unknown>,
+  ): PaginatedResponse<VolumeItem> | LedgerError;
 }
