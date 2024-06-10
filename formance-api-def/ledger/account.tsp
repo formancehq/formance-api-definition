@@ -1,6 +1,5 @@
 import "@formance/api-std";
 import "@typespec/http";
-import "./utils.tsp";
 import "./errors.tsp";
 import "./auth.tsp";
 
