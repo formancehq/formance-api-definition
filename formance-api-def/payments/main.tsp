@@ -9,6 +9,7 @@ import "./connectors.tsp";
 import "./transfer_initiations.tsp";
 import "./cash_pools.tsp";
 import "./accounts.tsp";
+import "./bank_accounts.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
