@@ -101,15 +101,15 @@ model PaymentAdjustment {
 @route("/payments")
 interface PaymentsV1 {
   @FormanceApiStd.operation
-  @useAuth(FormanceOAuth<["payments:read"]>)
+  @useAuth(PaymentsRead)
   get(@path payementId: string): FormanceResponse<Payment>;
 
   @FormanceApiStd.operation
-  @useAuth(FormanceOAuth<["payments:write"]>)
+  @useAuth(PaymentsWrite)
   create(...CreatePaymentRequest): FormanceResponse<Payment> | PaymentsError;
 
   @FormanceApiStd.operation
-  @useAuth(FormanceOAuth<["payments:read"]>)
+  @useAuth(PaymentsRead)
   @paginated
   list(
     @query
@@ -118,17 +118,21 @@ interface PaymentsV1 {
     pageSize?: int64,
 
     @query cursor?: string,
+
     @query({
       format: "multi",
     })
     sort?: string[],
+
     @query query?: string,
   ): PaginatedResponse<Payment> | PaymentsError;
 
   @FormanceApiStd.operation
-  @useAuth(FormanceOAuth<["payments:write"]>)
+  @useAuth(PaymentsWrite)
   @patch
   @route("{paymentId}/metadata")
-  op updateMetatdata(@path paymentId: string, ...Record<string>): void | PaymentsError;
+  updateMetatdata(
+    @path paymentId: string,
+    ...Record<string>,
+  ): void | PaymentsError;
 }
-

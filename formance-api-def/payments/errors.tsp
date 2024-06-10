@@ -9,12 +9,12 @@ namespace Payments;
 enum PaymentErrorCodes {
   INTERNAL,
   VALIDATION,
-  NOT_FOUND
-};
+  NOT_FOUND,
+}
 
 @error
-@extension("x-speakeasy-name-override", "PaymentError")
+@extension("x-speakeasy-name-override", "PaymentsError")
 model PaymentsError {
-  errorCode: PaymentErrorCodes,
-  errorMessage: string
-};
+  errorCode: PaymentErrorCodes;
+  errorMessage: string;
+}
