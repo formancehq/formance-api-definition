@@ -8,6 +8,7 @@ import "./payments.tsp";
 import "./connectors.tsp";
 import "./transfer_initiations.tsp";
 import "./cash_pools.tsp";
+import "./accounts.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
