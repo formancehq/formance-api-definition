@@ -15,7 +15,6 @@ using FormanceApiStd;
 
 @service({
   title: "Formance Ledger API",
-
 })
 @server("http://localhost", "Default localhost endpoint")
 @route("/api/ledger/v2")
@@ -29,4 +28,3 @@ model ServerInfo {
 @FormanceApiStd.operation
 @useAuth(FormanceOAuth<["ledger:read"]>)
 op info(): ServerInfo;
-

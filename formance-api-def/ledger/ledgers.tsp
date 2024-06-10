@@ -21,7 +21,7 @@ model Ledger {
 
 enum MigrationState {
   TODO: "TO DO",
-  DONE
+  DONE,
 }
 
 model Migration {
@@ -34,9 +34,9 @@ model Migration {
 model LedgerInfo {
   name: string;
   storage: {
-    migrations: Migration[]
-  }
-};
+    migrations: Migration[];
+  };
+}
 
 model CreateTransactionAction {
   action: "CREATE_TRANSACTION";
@@ -47,13 +47,13 @@ model CreateTransactionAction {
 model AddMetadataAction {
   action: "ADD_METADATA";
   ik?: string;
-  data: AddMetadataTarget
+  data: AddMetadataTarget;
 }
 
 model AddMetadataTargetAccount {
   targetType: "ACCOUNT";
   targetId: string;
-  metadata: Record<string>
+  metadata: Record<string>;
 }
 
 model AddMetadataTargetTransaction {
@@ -64,8 +64,8 @@ model AddMetadataTargetTransaction {
 
 @discriminator("targetType")
 union AddMetadataTarget {
-  ACCOUNT: AddMetadataTargetAccount;
-  TRANSACTION: AddMetadataTargetTransaction;
+  ACCOUNT: AddMetadataTargetAccount,
+  TRANSACTION: AddMetadataTargetTransaction,
 }
 
 model RevertTransactionAction {
@@ -92,60 +92,64 @@ model DeleteMetadataTargetAccount {
 
 @discriminator("targetType")
 union DeleteMetadataTarget {
-  ACCOUNT: DeleteMetadataTargetAccount;
-  TRANSACTION: DeleteMetadataTargetTransaction;
-};
+  ACCOUNT: DeleteMetadataTargetAccount,
+  TRANSACTION: DeleteMetadataTargetTransaction,
+}
 
 model DeleteMetadataAction {
   action: "DELETE_METADATA";
   ik?: string;
   data: DeleteMetadataTarget;
-};
+}
 
 @discriminator("action")
 union BulkAction {
-  CREATE_TRANSACTION: CreateTransactionAction;
-  ADD_METADATA: AddMetadataAction;
-  REVERT_TRANSACTION: RevertTransactionAction;
-  DELETE_METADATA: DeleteMetadataAction;
-};
+  CREATE_TRANSACTION: CreateTransactionAction,
+  ADD_METADATA: AddMetadataAction,
+  REVERT_TRANSACTION: RevertTransactionAction,
+  DELETE_METADATA: DeleteMetadataAction,
+}
 
-model CreateTransactionActionResponse { 
+model CreateTransactionActionResponse {
   responseType: "CREATE_TRANSACTION";
   data: Transaction;
 }
 
-model RevertTransactionActionResponse { 
+model RevertTransactionActionResponse {
   responseType: "REVERT_TRANSACTION";
   data: Transaction;
 }
 
-model AddMetadataActionResponse { responseType: "ADD_METADATA" };
+model AddMetadataActionResponse {
+  responseType: "ADD_METADATA";
+}
 
-model DeleteMetadataActionResponse { responseType: "DELETE_METADATA" };
+model DeleteMetadataActionResponse {
+  responseType: "DELETE_METADATA";
+}
 
 @discriminator("responseType")
 union BulkResponse {
-  CREATE_TRANSACTION: CreateTransactionActionResponse;
-  REVERT_TRANSACTION: RevertTransactionActionResponse;
-  ADD_METADATA: AddMetadataActionResponse;
-  DELETE_METADATA: DeleteMetadataActionResponse;
-};
+  CREATE_TRANSACTION: CreateTransactionActionResponse,
+  REVERT_TRANSACTION: RevertTransactionActionResponse,
+  ADD_METADATA: AddMetadataActionResponse,
+  DELETE_METADATA: DeleteMetadataActionResponse,
+}
 
 @Speakeasy.group("Ledgers")
 interface Ledgers {
   @FormanceApiStd.operation
   @paginated
   @useAuth(LedgerRead)
-  op list(...PaginatedQuery): PaginatedResponse<Ledger> | LedgerError;
+  list(...PaginatedQuery): PaginatedResponse<Ledger> | LedgerError;
 
   @FormanceApiStd.operation
   @useAuth(LedgerRead)
-  op get(@path ledger: string): FormanceResponse<Ledger> | LedgerError;
+  get(@path ledger: string): FormanceResponse<Ledger> | LedgerError;
 
   @FormanceApiStd.operation
   @useAuth(LedgerWrite)
-  op create(@path ledger: string, bucket?: string): void | LedgerError;
+  create(@path ledger: string, bucket?: string): void | LedgerError;
 
   @FormanceApiStd.operation
   @useAuth(LedgerRead)
@@ -156,21 +160,30 @@ interface Ledgers {
   @useAuth(LedgerWrite)
   @route("{ledger}/metadata")
   @put
-  op addMetadata(@path ledger: string, @bodyRoot metadata: Record<string>): void | LedgerError;
+  addMetadata(
+    @path ledger: string,
+    @bodyRoot metadata: Record<string>,
+  ): void | LedgerError;
 
   @FormanceApiStd.operation
   @useAuth(LedgerWrite)
   @route("{ledger}/metadata/{key}")
   @delete
-  op removeMetadata(@path ledger: string, @path key: string): void | LedgerError;
+  removeMetadata(@path ledger: string, @path key: string): void | LedgerError;
 
   @FormanceApiStd.operation
   @useAuth(LedgerWrite)
   @route("{ledger}/_bulk")
-  bulk(@path ledger: string, @bodyRoot operations: BulkAction[]): FormanceResponse<BulkResponse[]> | LedgerError;
+  bulk(
+    @path ledger: string,
+    @bodyRoot operations: BulkAction[],
+  ): FormanceResponse<BulkResponse[]> | LedgerError;
 
   @FormanceApiStd.operation
   @useAuth(LedgerRead)
   @route("{ledger}/stats")
-  op stats(@path ledger: string): FormanceResponse<{ @minValue(0) account: int64; @minValue(0) transactions: int64; }> | LedgerError;
+  stats(@path ledger: string): FormanceResponse<{
+    @minValue(0) account: int64;
+    @minValue(0) transactions: int64;
+  }> | LedgerError;
 }
