@@ -16,4 +16,9 @@ sources:
             - location: ./formance-api-def/tsp-output/@typespec/openapi3/Reconciliation-openapi.yaml
         registry:
             location: registry.speakeasyapi.dev/formance/formance/reconciliation
+    wallets:
+        inputs:
+            - location: ./formance-api-def/tsp-output/@typespec/openapi3/Wallets-openapi.yaml
+        registry:
+            location: registry.speakeasyapi.dev/formance/formance/wallets
 targets: {}

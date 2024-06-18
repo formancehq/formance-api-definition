@@ -1,21 +1,27 @@
-speakeasyVersion: 1.297.0
+speakeasyVersion: 1.308.2
 sources:
     ledger:
         sourceNamespace: ledger
-        sourceRevisionDigest: sha256:1b9d18139602afcd062ab18a0f1b420240c69deba0164d5ba1c7ca1512727ec0
-        sourceBlobDigest: sha256:c6052d4c9c3cf9d16461499bbbb58eb6af2e1856d2039332526fa746ddde44b3
+        sourceRevisionDigest: sha256:e1e43e7fcc241def29ac6ca7734b8801ad56ee0f3bcd930acea87c96b4034d15
+        sourceBlobDigest: sha256:1e6dbeb896360264eaffca503f7e33f30359ccf6def5bbb5f6dc19d1ee4cbb8a
         tags:
             - latest
     payments:
         sourceNamespace: payments
-        sourceRevisionDigest: sha256:59bcc4962a6287429d1d795a4ecc6f9fdf18808e97d4407ba1e5b113b970ad84
-        sourceBlobDigest: sha256:1261c884741b3089480678be72cc729c4c77e905c1d838cc60f326c191a3e8ea
+        sourceRevisionDigest: sha256:b5e220b3fa1a670c39b2e2120b2674338357a1b566961c6bc850e26b27f82869
+        sourceBlobDigest: sha256:a042e1e325fa3e0dd312fa7ddd18ad0a04471bb23a43c76e7ae7da6c76396f95
         tags:
             - latest
     reconciliation:
         sourceNamespace: reconciliation
-        sourceRevisionDigest: sha256:5703bca11b8f9e2d38ea168a6923a01d936939fac5505b4d9a3ca94390e42922
+        sourceRevisionDigest: sha256:10d96dc8f1c834e804f8c45fd7609493736efb45333778aed0768d9dbfa6af95
         sourceBlobDigest: sha256:0579df688927358dae8d1c86040c75072fae546d637938adc037aec6769bc4b1
+        tags:
+            - latest
+    wallets:
+        sourceNamespace: wallets
+        sourceRevisionDigest: sha256:addcf4dc84f1d1d92f791dc7aa6a362639a02ebd1d41cb03c7c8311550a01dc2
+        sourceBlobDigest: sha256:d9b5e359ed9efed1101b08c61611731eda52bd8d8c69fe253408d99b05fdb89a
         tags:
             - latest
 targets:
@@ -74,4 +80,9 @@ workflow:
                 - location: ./formance-api-def/tsp-output/@typespec/openapi3/Reconciliation-openapi.yaml
             registry:
                 location: registry.speakeasyapi.dev/formance/formance/reconciliation
+        wallets:
+            inputs:
+                - location: ./formance-api-def/tsp-output/@typespec/openapi3/Wallets-openapi.yaml
+            registry:
+                location: registry.speakeasyapi.dev/formance/formance/wallets
     targets: {}
