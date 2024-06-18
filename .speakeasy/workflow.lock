@@ -1,26 +1,32 @@
 speakeasyVersion: 1.308.2
 sources:
+    auth:
+        sourceNamespace: auth
+        sourceRevisionDigest: sha256:4ce4118527e1a2d7d55ed92e96171915e520d771783f3e38f9e8434904f10959
+        sourceBlobDigest: sha256:c76a5fdcb7250bf0f41fd04647dbfb97cae6195c7f00c21e6f3fc3270de62229
+        tags:
+            - latest
     ledger:
         sourceNamespace: ledger
-        sourceRevisionDigest: sha256:e1e43e7fcc241def29ac6ca7734b8801ad56ee0f3bcd930acea87c96b4034d15
+        sourceRevisionDigest: sha256:3dad05657f455acf3406a41ef01768e0016d2202f3b29d9730d1e6382c6c08dd
         sourceBlobDigest: sha256:1e6dbeb896360264eaffca503f7e33f30359ccf6def5bbb5f6dc19d1ee4cbb8a
         tags:
             - latest
     payments:
         sourceNamespace: payments
-        sourceRevisionDigest: sha256:b5e220b3fa1a670c39b2e2120b2674338357a1b566961c6bc850e26b27f82869
+        sourceRevisionDigest: sha256:d2abf62720eebc32c15e0f4294ef6b9a3f93d89432f7100859ce2eb1b6936676
         sourceBlobDigest: sha256:a042e1e325fa3e0dd312fa7ddd18ad0a04471bb23a43c76e7ae7da6c76396f95
         tags:
             - latest
     reconciliation:
         sourceNamespace: reconciliation
-        sourceRevisionDigest: sha256:10d96dc8f1c834e804f8c45fd7609493736efb45333778aed0768d9dbfa6af95
+        sourceRevisionDigest: sha256:8d7799937e183e76a54a5d34cb90bb4620ec75408dbe831aa56a645eadf4fae6
         sourceBlobDigest: sha256:0579df688927358dae8d1c86040c75072fae546d637938adc037aec6769bc4b1
         tags:
             - latest
     wallets:
         sourceNamespace: wallets
-        sourceRevisionDigest: sha256:addcf4dc84f1d1d92f791dc7aa6a362639a02ebd1d41cb03c7c8311550a01dc2
+        sourceRevisionDigest: sha256:f66e30461fe7fe7f50f86506f18c51d8b0e69415b2a8205c932badf3c9b2f04b
         sourceBlobDigest: sha256:d9b5e359ed9efed1101b08c61611731eda52bd8d8c69fe253408d99b05fdb89a
         tags:
             - latest
@@ -65,6 +71,11 @@ workflow:
     workflowVersion: 1.0.0
     speakeasyVersion: latest
     sources:
+        auth:
+            inputs:
+                - location: ./formance-api-def/tsp-output/@typespec/openapi3/Auth-openapi.yaml
+            registry:
+                location: registry.speakeasyapi.dev/formance/formance/auth
         ledger:
             inputs:
                 - location: ./formance-api-def/tsp-output/@typespec/openapi3/Ledger-openapi.yaml

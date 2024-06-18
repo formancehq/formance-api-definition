@@ -1,6 +1,11 @@
 workflowVersion: 1.0.0
 speakeasyVersion: latest
 sources:
+    auth:
+        inputs:
+            - location: ./formance-api-def/tsp-output/@typespec/openapi3/Auth-openapi.yaml
+        registry:
+            location: registry.speakeasyapi.dev/formance/formance/auth
     ledger:
         inputs:
             - location: ./formance-api-def/tsp-output/@typespec/openapi3/Ledger-openapi.yaml
