@@ -15,15 +15,15 @@
     }
   },
   "devDependencies": {
-    "@types/node": "latest",
-    "@typescript-eslint/eslint-plugin": "^6.0.0",
-    "@typescript-eslint/parser": "^6.0.0",
-    "@typespec/library-linter": "latest",
-    "@typespec/openapi": "^0.56.0",
-    "@typespec/http": "^0.56.0",
-    "eslint": "^8.45.0",
-    "prettier": "^3.0.3",
-    "typescript": "^5.3.3"
+    "@types/node": "^20.14.5",
+    "@typescript-eslint/eslint-plugin": "^7.13.1",
+    "@typescript-eslint/parser": "^7.13.1",
+    "@typespec/http": "^0.57.0",
+    "@typespec/library-linter": "^0.57.0",
+    "@typespec/openapi": "^0.57.0",
+    "eslint": "^9.5.0",
+    "prettier": "^3.3.2",
+    "typescript": "^5.4.5"
   },
   "scripts": {
     "build": "tsc && npm run build:tsp",
@@ -37,8 +37,8 @@
   },
   "private": true,
   "peerDependencies": {
+    "@typespec/compiler": "^0.56.0",
     "@typespec/http": "^0.56.0",
-    "@typespec/openapi": "^0.56.0",
-    "@typespec/compiler": "^0.56.0"
+    "@typespec/openapi": "^0.56.0"
   }
 }
