@@ -1,4 +1,7 @@
 import "../oauth.tsp";
+import "@typespec/http";
 
-alias LedgerRead = FormanceOAuth<["ledger:read"]>;
-alias LedgerWrite = FormanceOAuth<["ledger:write"]>;
+using TypeSpec.Http;
+
+alias LedgerRead = FormanceOAuth<["ledger:read"]> | BearerAuth;
+alias LedgerWrite = FormanceOAuth<["ledger:write"]> | BearerAuth;

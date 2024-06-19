@@ -1,4 +1,4 @@
-speakeasyVersion: 1.308.2
+speakeasyVersion: 1.309.1
 sources:
     auth:
         sourceNamespace: auth
@@ -8,8 +8,8 @@ sources:
             - latest
     ledger:
         sourceNamespace: ledger
-        sourceRevisionDigest: sha256:3dad05657f455acf3406a41ef01768e0016d2202f3b29d9730d1e6382c6c08dd
-        sourceBlobDigest: sha256:1e6dbeb896360264eaffca503f7e33f30359ccf6def5bbb5f6dc19d1ee4cbb8a
+        sourceRevisionDigest: sha256:f5ba6a7d698b686cdc6c6fe091304e9747545fd7748aa5869034d565863d7856
+        sourceBlobDigest: sha256:305e3c570db4bb7abc5149bc4cc082b327b69c8995ad107118305d12e81dd135
         tags:
             - latest
     payments:
