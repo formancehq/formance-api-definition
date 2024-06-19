@@ -20,6 +20,7 @@ using FormanceApiStd;
 
 })
 @server("http://localhost", "Default localhost endpoint")
+@useAuth(FormanceOAuth<[]> | BearerAuth)
 namespace Payments;
 
 @route("/api/payments")

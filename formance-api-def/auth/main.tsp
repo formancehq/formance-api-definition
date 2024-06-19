@@ -17,6 +17,7 @@ using FormanceApiStd;
 })
 @server("http://localhost", "Default localhost endpoint")
 @route("/api/auth")
+@useAuth(BearerAuth | FormanceOAuth<[]>)
 namespace Auth;
 
 model ServerInfo {

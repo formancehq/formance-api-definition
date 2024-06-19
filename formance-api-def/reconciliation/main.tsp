@@ -18,6 +18,7 @@ using FormanceApiStd;
 })
 @server("http://localhost", "Default localhost endpoint")
 @route("/api/reconciliation")
+@useAuth(FormanceOAuth<[]> | BearerAuth)
 namespace Reconciliation;
 
 @FormanceApiStd.operation

@@ -16,6 +16,7 @@ using FormanceApiStd;
 })
 @server("http://localhost", "Default localhost endpoint")
 @route("/api/wallets")
+@useAuth(FormanceOAuth<[]> | BearerAuth)
 namespace Wallets;
 
 model ServerInfo {

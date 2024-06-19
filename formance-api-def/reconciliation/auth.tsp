@@ -1,4 +1,7 @@
 import "../oauth.tsp";
+import "@typespec/http";
 
-alias ReconciliationRead = FormanceOAuth<["reconciliation:read"]>;
-alias ReconciliationWrite = FormanceOAuth<["reconciliation:write"]>;
+using TypeSpec.Http;
+
+alias ReconciliationRead = FormanceOAuth<["reconciliation:read"]> | BearerAuth;
+alias ReconciliationWrite = FormanceOAuth<["reconciliation:write"]> | BearerAuth;

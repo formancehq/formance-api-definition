@@ -1,4 +1,8 @@
 import "../oauth.tsp";
 
-alias PaymentsWrite = FormanceOAuth<["payments:write"]>;
-alias PaymentsRead = FormanceOAuth<["payments:read"]>;
+import "@typespec/http";
+
+using TypeSpec.Http;
+
+alias PaymentsWrite = FormanceOAuth<["payments:write"]> | BearerAuth;
+alias PaymentsRead = FormanceOAuth<["payments:read"]> | BearerAuth;

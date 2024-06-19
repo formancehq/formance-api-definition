@@ -1,4 +1,7 @@
 import "../oauth.tsp";
+import "@typespec/http";
 
-alias AuthRead = FormanceOAuth<["auth:read"]>;
-alias AuthWrite = FormanceOAuth<["auth:write"]>;
+using TypeSpec.Http;
+
+alias AuthRead = FormanceOAuth<["auth:read"]> | BearerAuth;
+alias AuthWrite = FormanceOAuth<["auth:write"]> | BearerAuth;
