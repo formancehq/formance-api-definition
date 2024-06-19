@@ -18,6 +18,7 @@ using FormanceApiStd;
 })
 @server("http://localhost", "Default localhost endpoint")
 @route("/api/ledger/v2")
+@useAuth(BearerAuth | FormanceOAuth<[]>)
 namespace Ledger;
 
 model ServerInfo {
