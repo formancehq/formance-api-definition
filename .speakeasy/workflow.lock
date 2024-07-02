@@ -1,33 +1,39 @@
-speakeasyVersion: 1.309.1
+speakeasyVersion: 1.325.1
 sources:
     auth:
         sourceNamespace: auth
-        sourceRevisionDigest: sha256:4ce4118527e1a2d7d55ed92e96171915e520d771783f3e38f9e8434904f10959
-        sourceBlobDigest: sha256:c76a5fdcb7250bf0f41fd04647dbfb97cae6195c7f00c21e6f3fc3270de62229
+        sourceRevisionDigest: sha256:3d9dd749d76847950bec4b5a8e932d0a33c677c8059df4f1d2a4e503a47fbed6
+        sourceBlobDigest: sha256:de5c83a97e63dc0bbddcd233e14cf4c48787e4a90e1c052153e4bf40771fdfa9
+        tags:
+            - latest
+    flows:
+        sourceNamespace: flows
+        sourceRevisionDigest: sha256:b20a1ddebcbe5c25050c5c785359b1f003864306faade34242b062d5b822a6db
+        sourceBlobDigest: sha256:3ca256f2de5d9a758e443f153330bf2e8979f89b64f8452893f61527428e3157
         tags:
             - latest
     ledger:
         sourceNamespace: ledger
-        sourceRevisionDigest: sha256:f5ba6a7d698b686cdc6c6fe091304e9747545fd7748aa5869034d565863d7856
-        sourceBlobDigest: sha256:305e3c570db4bb7abc5149bc4cc082b327b69c8995ad107118305d12e81dd135
+        sourceRevisionDigest: sha256:978a9248164242d0714b462089d6c93710342aadd500f764f57d8256bd543c8d
+        sourceBlobDigest: sha256:d00196fcdc4993e2000aa64a0adb2c767a737bc401b622e288013b42178bbbd8
         tags:
             - latest
     payments:
         sourceNamespace: payments
-        sourceRevisionDigest: sha256:d2abf62720eebc32c15e0f4294ef6b9a3f93d89432f7100859ce2eb1b6936676
-        sourceBlobDigest: sha256:a042e1e325fa3e0dd312fa7ddd18ad0a04471bb23a43c76e7ae7da6c76396f95
+        sourceRevisionDigest: sha256:2aba1d1cdb39857572945eb9a4460c2000168228daafb9d1d6f3dda87563c8b0
+        sourceBlobDigest: sha256:e242d62446b7101589fe2ba9241543dcee0738fc65f8cd9ae2ad3f42402690e4
         tags:
             - latest
     reconciliation:
         sourceNamespace: reconciliation
-        sourceRevisionDigest: sha256:8d7799937e183e76a54a5d34cb90bb4620ec75408dbe831aa56a645eadf4fae6
-        sourceBlobDigest: sha256:0579df688927358dae8d1c86040c75072fae546d637938adc037aec6769bc4b1
+        sourceRevisionDigest: sha256:973ef6b7406179b601c6a0e54827495f00523c4fab06a9c6e88d4cbd1835fc5e
+        sourceBlobDigest: sha256:8d806295f7b4683ed36c080b4c3a2dcc04221581180dffd055e591dd97b877d0
         tags:
             - latest
     wallets:
         sourceNamespace: wallets
-        sourceRevisionDigest: sha256:f66e30461fe7fe7f50f86506f18c51d8b0e69415b2a8205c932badf3c9b2f04b
-        sourceBlobDigest: sha256:d9b5e359ed9efed1101b08c61611731eda52bd8d8c69fe253408d99b05fdb89a
+        sourceRevisionDigest: sha256:3033b61d07644cbeae185e28c3d88e415a4b3ccbb7e4a11ac2cd19d6ca74a54f
+        sourceBlobDigest: sha256:f1821a6d1ccba802b068ca1c59765f293d223e3691345c0d7d98d08f373541f4
         tags:
             - latest
 targets:
@@ -76,6 +82,11 @@ workflow:
                 - location: ./formance-api-def/tsp-output/@typespec/openapi3/Auth-openapi.yaml
             registry:
                 location: registry.speakeasyapi.dev/formance/formance/auth
+        flows:
+            inputs:
+                - location: ./formance-api-def/tsp-output/@typespec/openapi3/Flows-openapi.yaml
+            registry:
+                location: registry.speakeasyapi.dev/formance/formance/flows
         ledger:
             inputs:
                 - location: ./formance-api-def/tsp-output/@typespec/openapi3/Ledger-openapi.yaml

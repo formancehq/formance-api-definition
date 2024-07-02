@@ -6,6 +6,11 @@ sources:
             - location: ./formance-api-def/tsp-output/@typespec/openapi3/Auth-openapi.yaml
         registry:
             location: registry.speakeasyapi.dev/formance/formance/auth
+    flows:
+        inputs:
+            - location: ./formance-api-def/tsp-output/@typespec/openapi3/Flows-openapi.yaml
+        registry:
+            location: registry.speakeasyapi.dev/formance/formance/flows
     ledger:
         inputs:
             - location: ./formance-api-def/tsp-output/@typespec/openapi3/Ledger-openapi.yaml
