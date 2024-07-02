@@ -4,21 +4,18 @@ import "@typespec/openapi";
 import "@formance/api-std";
 
 import "./auth.tsp";
-import "./client.tsp";
-import "./secrets.tsp";
-import "./users.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
 using FormanceApiStd;
 
 @service({
-  title: "Formance Auth API",
+  title: "Formance Flows API",
 })
 @server("http://localhost", "Default localhost endpoint")
 @route("/api/auth")
 @useAuth(BearerAuth | FormanceOAuth<[]>)
-namespace Auth;
+namespace Flows;
 
 model ServerInfo {
   version: string;
@@ -26,5 +23,5 @@ model ServerInfo {
 
 @route("_info")
 @FormanceApiStd.operation
-@useAuth(AuthRead)
+@useAuth(FlowsRead)
 op info(): ServerInfo;
