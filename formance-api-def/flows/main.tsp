@@ -6,6 +6,7 @@ import "@formance/api-std";
 import "./auth.tsp";
 
 import "./triggers.tsp";
+import "./workflows.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;

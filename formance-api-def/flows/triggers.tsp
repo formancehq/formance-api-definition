@@ -4,6 +4,7 @@ import "@formance/api-std";
 import "@typespec/compiler";
 import "@typespec/http";
 import "@typespec/openapi";
+import "./workflows.tsp";
 
 using FormanceApiStd;
 using TypeSpec.Http;
@@ -32,29 +33,10 @@ model TriggerTest {
   }>;
 }
 
-model WorkflowStatus {
-  stage: integer;
-  instanceId: string;
-  startedAt: utcDateTime;
-  terminatedAt?: utcDateTime;
-  error?: string;
-}
-
-model Workflow {
-  workflowId: string;
-  id: string;
-  createdAt: utcDateTime;
-  updatedAt: utcDateTime;
-  status?: WorkflowStatus;
-  terminated: boolean;
-  terminatedAt?: utcDateTime;
-  error?: utcDateTime;
-}
-
 model TriggerOccurence {
   date: utcDateTime;
   workflowInstanceId?: string;
-  workflowInstance?: Workflow;
+  workflowInstance?: WorkflowInstance;
   triggerID: string;
   error?: string;
   event: unknown;
