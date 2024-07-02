@@ -5,6 +5,8 @@ import "@formance/api-std";
 
 import "./auth.tsp";
 
+import "./triggers.tsp";
+
 using TypeSpec.Http;
 using TypeSpec.Rest;
 using FormanceApiStd;
@@ -13,7 +15,7 @@ using FormanceApiStd;
   title: "Formance Flows API",
 })
 @server("http://localhost", "Default localhost endpoint")
-@route("/api/auth")
+@route("/api/orchestration/v2")
 @useAuth(BearerAuth | FormanceOAuth<[]>)
 namespace Flows;
 
