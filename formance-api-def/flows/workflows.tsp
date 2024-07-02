@@ -4,6 +4,7 @@ import "@formance/api-std";
 import "@typespec/compiler";
 import "@typespec/http";
 import "@typespec/openapi";
+import "./instances.tsp";
 
 using FormanceApiStd;
 using TypeSpec.Http;
@@ -21,25 +22,6 @@ model Workflow {
   createdAt: utcDateTime;
   updatedAt: utcDateTime;
   id: string;
-}
-
-model WorkflowStatus {
-  stage: integer;
-  instanceId: string;
-  startedAt: utcDateTime;
-  terminatedAt?: utcDateTime;
-  error?: string;
-}
-
-model WorkflowInstance {
-  workflowId: string;
-  id: string;
-  createdAt: utcDateTime;
-  updatedAt: utcDateTime;
-  status?: WorkflowStatus;
-  terminated: boolean;
-  terminatedAt?: utcDateTime;
-  error?: utcDateTime;
 }
 
 @Speakeasy.group("Workflows")

@@ -7,6 +7,7 @@ import "./auth.tsp";
 
 import "./triggers.tsp";
 import "./workflows.tsp";
+import "./instances.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;

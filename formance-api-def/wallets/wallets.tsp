@@ -36,6 +36,31 @@ model WalletSummary {
   holdFunds: Funds;
 }
 
+model CreditWalletInput {
+  amount: {
+    asset: string;
+    amount: integer;
+  };
+  metadata: Record<string>;
+  source: WalletCounterpart;
+  reference?: string;
+  balance?: string;
+  tinestamp?: string;
+}
+
+model DebitWalletInput {
+  pending?: boolean;
+  amount: {
+    asset: string;
+    amount: integer;
+  };
+  metadata: Record<string>;
+  description?: string;
+  destination?: WalletCounterpart;
+  balances?: string[];
+  timestamp?: utcDateTime;
+}
+
 @Speakeasy.group("wallets")
 @route("wallets")
 interface Wallets {
@@ -80,19 +105,7 @@ interface Wallets {
   @FormanceApiStd.operation
   @useAuth(WalletsWrite)
   @route("{id}/debit")
-  debit(
-    @path id: string,
-    pending?: boolean,
-    amount: {
-      asset: string;
-      amount: integer;
-    },
-    metadata: Record<string>,
-    description?: string,
-    destination?: WalletCounterpart,
-    balances?: string[],
-    timestamp?: utcDateTime,
-  ): {
+  debit(@path id: string, ...DebitWalletInput): {
     @statusCode _: 201;
     ...FormanceResponse<Hold>;
   } | void | WalletsError;
@@ -100,16 +113,5 @@ interface Wallets {
   @FormanceApiStd.operation
   @route("{id}/credit")
   @useAuth(WalletsWrite)
-  credit(
-    @path id: string,
-    amount: {
-      asset: string;
-      amount: integer;
-    },
-    metadata: Record<string>,
-    source: WalletCounterpart,
-    reference?: string,
-    balance?: string,
-    tinestamp?: string,
-  ): void | WalletsError;
+  credit(@path id: string, ...CreditWalletInput): void | WalletsError;
 }

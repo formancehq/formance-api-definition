@@ -4,7 +4,7 @@ import "@formance/api-std";
 import "@typespec/compiler";
 import "@typespec/http";
 import "@typespec/openapi";
-import "./workflows.tsp";
+import "./instances.tsp";
 
 using FormanceApiStd;
 using TypeSpec.Http;
