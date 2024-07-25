@@ -8,6 +8,7 @@ import "./transaction.tsp";
 import "../oauth.tsp";
 import "./balances.tsp";
 import "./ledgers.tsp";
+import "./logs.tsp";
 
 using TypeSpec.Http;
 using TypeSpec.Rest;
